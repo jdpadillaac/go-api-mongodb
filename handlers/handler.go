@@ -6,12 +6,17 @@ import (
 	"os"
 
 	"github.com/gorilla/mux"
+	"github.com/jdpadillaac/go-api-mongodb/controllers/usercontroller"
+	"github.com/jdpadillaac/go-api-mongodb/middlewares"
 	"github.com/rs/cors"
 )
 
 // Handlers => En la funcion que maneja las peticiones
 func Handlers() {
 	router := mux.NewRouter()
+
+	router.HandleFunc("/auth/new", middlewares.CheckDB(usercontroller.UserRegister)).Methods("POST")
+	router.HandleFunc("/users", middlewares.CheckDB(usercontroller.UserRegister)).Methods("GET")
 
 	PORT := os.Getenv("PORT")
 	if PORT == "" {

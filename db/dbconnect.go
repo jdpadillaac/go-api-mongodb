@@ -11,7 +11,7 @@ import (
 // MongoCN => Se exporta conexion a mongo para utilizar en toda la app
 var MongoCN = conectarDB()
 
-var clientOptions = options.Client().ApplyURI("mongodb://localhost:27017/go-test-db?readPreference=primary&appname=MongoDB%20Compass%20Community&ssl=false")
+var clientOptions = options.Client().ApplyURI("mongodb://localhost:27017/?readPreference=primary&appname=MongoDB%20Compass%20Community&ssl=false")
 
 func conectarDB() *mongo.Client {
 	client, err := mongo.Connect(context.TODO(), clientOptions)
