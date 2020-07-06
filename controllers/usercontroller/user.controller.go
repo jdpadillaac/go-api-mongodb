@@ -31,7 +31,7 @@ func UserRegister(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var userFOunded models.User = userservice.FindByID(id)
+	userFOunded, _ := userservice.FindByID(id)
 	userFOunded.Password = ""
 
 	userResponse, err := json.Marshal(userFOunded)

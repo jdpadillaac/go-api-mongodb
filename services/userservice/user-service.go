@@ -11,8 +11,11 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-var userDb = db.MongoCN.Database("go-test-db")
-var col = userDb.Collection("users")
+// UserDb => db name
+var UserDb = db.MongoCN.Database("go-test-db")
+
+// UserColllection => Current coolection
+var UserColllection = UserDb.Collection("users")
 
 // ValidateIfUserExistByEmail => buscar unsuario en la base de datos por email
 func ValidateIfUserExistByEmail(email string) bool {
@@ -55,7 +58,7 @@ func SaveUser(u models.User) (string, bool, error) {
 }
 
 // FindByID => Funcion para obtener usuario por id
-func FindByID(id string) models.User {
+func FindByID(id string) (models.User, bool) {
 	ctx, cancel := context.WithTimeout(context.Background(), 15*time.Second)
 	defer cancel()
 
@@ -69,9 +72,10 @@ func FindByID(id string) models.User {
 
 	err := col.FindOne(ctx, condition).Decode(&result)
 	if err != nil {
-		return result
+		return result, false
 	}
-	return result
+	result.Password = ""
+	return result, true
 
 }
 
@@ -84,7 +88,7 @@ func FindByEmail(email string) (models.User, bool) {
 
 	var userFounded models.User
 
-	err := col.FindOne(ctx, condition).Decode(&userFounded)
+	err := UserColllection.FindOne(ctx, condition).Decode(&userFounded)
 	if err != nil {
 		return userFounded, false
 	}

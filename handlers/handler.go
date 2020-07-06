@@ -17,9 +17,9 @@ func Handlers() {
 	router := mux.NewRouter()
 
 	router.HandleFunc("/auth/new", middlewares.CheckDB(usercontroller.UserRegister)).Methods("POST")
-	router.HandleFunc("/users", middlewares.CheckDB(usercontroller.UserRegister)).Methods("GET")
 
 	routers.AuthRoutes(router)
+	routers.UserRoutes(router)
 
 	PORT := os.Getenv("PORT")
 	if PORT == "" {
